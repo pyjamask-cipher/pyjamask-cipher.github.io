@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Pyjamask cipher</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>Pyjamask</strong> cipher</a>
+									<ul class="icons">
+										<li><a href="https://github.com/pyjamask-cipher" class="icon fa-github"><span class="label">GitHub</span></a></li>
+										<li><a href="mailto:pyjamask@googlegroups.com" class="icon fa-envelope-o"><span class="label">Contact</span></a></li>
+									</ul>
+								</header>
+
+								<!-- Content -->
+								<section>
+									<header class="main">
+										<h2>Rationale</h2>
+									</header>
+
+									<p>
+										Pyjamask aims to provide symmetric (authenticated) encryption enjoying fast software implementations with high levels of security against side-channel attacks. To achieve this goal, Pyjamask has been designed to be as lightweight as possible in the presence of high-order masking in software, while still enjoying unmasked and/or hardware implementations with satisfying performances.
+									</p>
+
+									<p>
+										Several works have recently shown that the best performances for high-order masked implementations are obtained through the use of bitslicing. In such implementations, the non-linear layer is computed through a sequence of bitwise operations. The performances are then  highly correlated to the number of bitwise AND operations.
+									</p>
+
+									<p>
+										Pyjamask has been designed to enjoy such fast bitslice implementations in the presence of high-order masking. Specifically, we have favored:
+										<ul>
+											<li> a minimal number of 32-AND operations for efficient implementation on 32-bit platforms, </li>
+											<li> a parallelization degree to address 64-bit platforms and/or processor with vector instructions,</li>
+											<li> a design with reasonable performances for unmasked and/or hardware implementations, </li>
+											<li> a design that relies on the well-studied SPN architecture (Sbox layer, linear diffusion layer, and bitwise key addition).</li>
+
+										</ul>
+									</p>
+									<p>
+										To fulfill these criteria, we have opted for a design based on the following choices:
+										<ul>
+											<li> The nonlinear layer is composed of 32 parallel applications of a small Sbox, either a 3-bit or a 4-bit Sbox, which yield two instances of the cipher  with either a 96-bit state or a 128-bit state. For each instance, the Sbox has the minimal cost in terms of AND gates, i.e., 3 and 4 respectively. This makes a nonlinear layer that can be evaluated with 3 or 4 bitwise AND operations in total.</li>
+											<li> The 4-bit Sbox enjoys a possible parallelization of the AND gates, namely it can be evaluated with two pairs of parallel AND gates. As a result, the nonlinear layer of Pyjamask-128 can be evaluated with two 64-AND operations in total, which makes it further well suited for 64-bit architectures (or processors with vector instructions). </li>
+											<li> Since linear parts are virtually free in the masking world, the linear layer of the Pyjamask block cipher has been conceived to provide high diffusion by means of 32x32 binary matrices. Different matrices are used for the different 32-bit slices in order to avoid too much regularity. On the other hand, we chose to use circulant matrices to obtain acceptable performances for unmasked and/or hardware implementations. </li>
+											<li> The key-schedule of the cipher has been designed to only involve linear operations for an optimal performances in the presence of masking.</li>
+
+										</ul>
+									</p>
+
+								</section>
+
+						</div>
+					</div>
+
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="index.html">Home</a></li>
+										<li><a href="team.html">Team</a></li>
+										<li><a href="submission.html">NIST submission</a></li>
+										<li><a href="rationale.html">Rationale</a></li>
+										<li><a href="blockcipher.html">Block cipher</a></li>
+										<li><a href="performances.html">Performances</a></li>
+									</ul>
+								</nav>
+
+							<!-- Section -->
+								<section>
+
+									<h1>		
+									<center>
+										<a href="https://github.com/pyjamask-cipher" class="icon fa-github"><span class="label">GitHub</span></a>
+										&nbsp;
+										<a href="mailto:pyjamask@googlegroups.com" class="icon fa-envelope-o"><span class="label">Contact</span></a>
+										</center>								
+									</h1>
+
+									<p class="copyright">&copy; 2019 Pyjamask team. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</section>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
